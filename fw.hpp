@@ -11,6 +11,17 @@ class Rocket
 	Rocket();
 	virtual ~Rocket();
 
+	/*
+	Must create own function for "birthing a rocket"
+	Choose the type of rocket within this function
+	Push_back onto vector
+	*/
+
+	/*
+	Keep in mind with LINE and COLS,
+	it is really (y, x)
+	*/
+
 	void SetTriggerAge(int i);
 	void SetAgeLimit(int i);
 	void SetPosition(Rocket &other);
@@ -30,6 +41,10 @@ class Rocket
 
   protected:
 	int age;
+	/*
+	age_limit and trigger_age should be one number
+	randomized by adding a little or subracting a little
+	*/
 	int age_limit;
 	int trigger_age;
 
