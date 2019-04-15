@@ -8,14 +8,14 @@
 
 using namespace std;
 
-void Streamer::Draw()
+void Streamer::Trigger(vector<Rocket *> &v)
 {
+	Streamer *s = new Streamer;
+	v.push_back(s);
 }
 
-void Streamer::Trigger()
+void DoubleStreamer::Trigger(vector<Rocket *> &v)
 {
-}
-
-void DoubleStreamer::Trigger()
-{
+	DoubleStreamer *ds = new DoubleStreamer;
+	v.push_back(ds);
 }

@@ -10,14 +10,9 @@
 using namespace std;
 
 float Rocket::gravity = -1.0;
-ofstream *Rocket::log_file = nullptr;
-vector<Rocket *> *Rocket::rockets = nullptr;
 
 Rocket::Rocket()
 {
-	//put in main
-	srand((unsigned int)time(nullptr));
-
 	//this->SetTriggerAge(int i);
 	//this->SetAgeLimit(int i);
 	this->SetPosition(rand() % COLS, 0);
@@ -66,7 +61,7 @@ void Rocket::SetForce(float x, float y)
 
 void Rocket::Draw()
 {
-	mvaddch(this->position.y, this->position.x, 'x');
+	mvaddch(this->position.y, this->position.x, '*');
 }
 
 /*
@@ -78,9 +73,19 @@ Graphics can only be used in integers,
 	will be rounded.
 
 */
-void Rocket::Step()
+void Rocket::Step(vector<Rocket *> &v)
 {
-	this->age += 1;
+	for (size_t i = 0; i < v.size(); i++)
+	{
+		Rocket r = *(v.at(i));
+
+		r.position.x += r.force.x;
+		r.position.y += r.force.y;
+
+		r.position.y += r.gravity;
+
+		r.age += 1;
+	}
 }
 
 bool Rocket::IsAlive()
@@ -117,21 +122,11 @@ void Rocket::SetGravity(float g)
 	gravity = g;
 }
 
-/*
-Print to with debugging output so it will be easier to
-read debugging output
-Check to see if ofstream exists or not
-If not, don't care, don't use
-*/
-void Rocket::SetLogFile(std::ofstream *log_file)
+void Rocket::Trigger(vector<Rocket *> &v)
 {
-	log_file = log_file;
+	Rocket *r = new Rocket();
+	v.push_back(r);
 }
-void Rocket::SetVector(std::vector<Rocket *> *rockety)
-{
-	rockets = rockety;
-}
-void Rocket::Trigger() {}
 
 int Rocket::GetAge()
 {
