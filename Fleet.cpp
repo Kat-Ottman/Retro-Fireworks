@@ -4,17 +4,22 @@
 #include "fw.hpp"
 #include "streamer.hpp"
 #include "palmtree.hpp"
+#include <list>
+#include <iostream>
 
 void Fleet::Cull()
 {
-	for (size_t i = 0; i < rockets.size(); i++)
-	{
-		Rocket r = *(rockets.at(i));
+	auto it = rockets.begin();
 
-		if (!r.IsAlive())
+	if (it != rockets.end())
+	{
+		if (!((*it)->IsAlive()))
 		{
-			delete rockets.at(i);
-			i -= 1;
+			it = rockets.erase(it);
+		}
+		else
+		{
+			++it;
 		}
 	}
 }
@@ -31,6 +36,11 @@ void Fleet::Birth(float initial_up_force)
 
 	if (birthR <= 15)
 	{
+		for (int i = 0; i < birthR; i++)
+		{
+			Rocket *r = RocketFactory(initial_up_force);
+			rockets.push_back(r);
+		}
 	}
 }
 
@@ -43,17 +53,18 @@ Vector will combine with vector with new triggered rockets.
 */
 void Fleet::Step()
 {
-	std::vector<Rocket *> newRockets;
 	Rocket r;
 
 	r.Step(rockets);
 
 	if (r.IsTriggered())
 	{
-		r.Trigger(newRockets);
-	}
+		std::vector<Rocket *> newRockets;
 
-	rockets.insert(rockets.end(), newRockets.begin(), newRockets.end());
+		r.Trigger(newRockets);
+
+		rockets.insert(rockets.end(), newRockets.begin(), newRockets.end());
+	}
 }
 
 void Fleet::Draw()
@@ -69,22 +80,23 @@ void Fleet::Draw()
 Rocket *Fleet::RocketFactory(float initial_up_force)
 {
 	int chooseType = rand() % 3;
-	Rocket *r;
+	Rocket r = Rocket();
+	Rocket *pr = &r;
 
-	if (chooseType = 1)
+	if ((chooseType = 1))
 	{
-		r = new PalmTree;
+		pr = new PalmTree;
 	}
-	else if (chooseType = 2)
+	else if ((chooseType = 2))
 	{
-		r = new Streamer;
+		pr = new Streamer;
 	}
-	else if (chooseType = 3)
+	else if ((chooseType = 3))
 	{
-		r = new DoubleStreamer;
+		pr = new DoubleStreamer;
 	}
 
-	//put r.SetTriggerAge(), r.SetLimitAge(), r.SetPosition(), and r.SetForce()
+	r.SetForce(initial_up_force, 4.0 + frand());
 
-	return r;
+	return pr;
 }

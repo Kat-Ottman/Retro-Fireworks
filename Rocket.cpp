@@ -9,13 +9,14 @@
 
 using namespace std;
 
-float Rocket::gravity = -1.0;
+float Rocket::gravity = 1.0;
 
 Rocket::Rocket()
 {
-	//this->SetTriggerAge(int i);
-	//this->SetAgeLimit(int i);
-	this->SetPosition(rand() % COLS, 0);
+	this->SetAgeLimit(rand() % (LINES - 10));
+	this->SetTriggerAge(rand() % (LINES - 20));
+	this->SetPosition(0, rand() % (COLS - 1));
+	this->age = 0;
 }
 
 Rocket::~Rocket()
@@ -125,7 +126,7 @@ void Rocket::SetGravity(float g)
 void Rocket::Trigger(vector<Rocket *> &v)
 {
 	Rocket *r = new Rocket();
-	v.push_back(r);
+	(*r).age = 0;
 }
 
 int Rocket::GetAge()
