@@ -7,6 +7,10 @@
 #include <list>
 #include <iostream>
 
+/*
+Erases rocket pointers from rockets vector
+if rocket's age exceeds age limit.
+*/
 void Fleet::Cull()
 {
 	auto it = rockets.begin();
@@ -24,6 +28,9 @@ void Fleet::Cull()
 	}
 }
 
+/*
+Rockets are created and inserted into rockets vector.
+*/
 void Fleet::Birth(float initial_up_force)
 {
 	/*
@@ -67,6 +74,10 @@ void Fleet::Step()
 	}
 }
 
+/*
+Iterates through rockets vector causes each rocket
+to be drawn in terminal.
+*/
 void Fleet::Draw()
 {
 	for (size_t i = 0; i <= rockets.size(); i++)
@@ -77,26 +88,18 @@ void Fleet::Draw()
 	}
 }
 
+/*
+Creates new rocket pointer.
+
+Sets rocket force using function parameter.
+
+Returns rocket pointer.
+*/
 Rocket *Fleet::RocketFactory(float initial_up_force)
 {
-	int chooseType = rand() % 3;
-	Rocket r = Rocket();
-	Rocket *pr = &r;
+	Rocket *pr = new Rocket();
 
-	if ((chooseType = 1))
-	{
-		pr = new PalmTree;
-	}
-	else if ((chooseType = 2))
-	{
-		pr = new Streamer;
-	}
-	else if ((chooseType = 3))
-	{
-		pr = new DoubleStreamer;
-	}
-
-	r.SetForce(initial_up_force, 4.0 + frand());
+	(*pr).SetForce(initial_up_force, 4.0 + frand());
 
 	return pr;
 }

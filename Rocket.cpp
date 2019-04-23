@@ -6,11 +6,19 @@
 #include <chrono>
 #include <ctime>
 #include <iostream>
+#include "palmtree.hpp"
+#include "streamer.hpp"
 
 using namespace std;
 
 float Rocket::gravity = 1.0;
 
+/*
+Randomnly assigns rocket with age limit,
+trigger age, and position.
+
+Sets age to 0.
+*/
 Rocket::Rocket()
 {
 	this->SetAgeLimit(rand() % (LINES - 10));
@@ -33,6 +41,10 @@ void Rocket::SetAgeLimit(int i)
 	this->age_limit = i;
 }
 
+/*
+Assigns rocket position with position
+of another rocket.
+*/
 void Rocket::SetPosition(Rocket &other)
 {
 	this->position.x = other.position.x;
@@ -60,6 +72,10 @@ void Rocket::SetForce(float x, float y)
 	this->force.y = y;
 }
 
+/*
+Shows character in terminal based on current
+rocket position.
+*/
 void Rocket::Draw()
 {
 	mvaddch(this->position.y, this->position.x, '*');
@@ -101,6 +117,7 @@ bool Rocket::IsAlive()
 	}
 	return true;
 }
+
 bool Rocket::IsTriggered()
 {
 	if (this->age >= this->trigger_age)
@@ -123,10 +140,42 @@ void Rocket::SetGravity(float g)
 	gravity = g;
 }
 
+/*
+Rocket is randomnly assigned a rocket type between
+Palmtree, Streamer, and Double Streamer.
+
+New rockets of that rocket type are created and added to
+a new vector.
+
+The new vector is inserted onto the rockets vector.
+
+Initial rocket pointer is deleted to deallocate memory.
+*/
 void Rocket::Trigger(vector<Rocket *> &v)
 {
-	Rocket *r = new Rocket();
-	(*r).age = 0;
+	int chooseType = rand() % 3;
+	Rocket *r;
+	vector<Rocket *> newV;
+
+	if ((chooseType = 1))
+	{
+		r = new PalmTree;
+		(*r).Trigger(newV);
+	}
+	else if ((chooseType = 2))
+	{
+		r = new Streamer;
+		(*r).Trigger(newV);
+	}
+	else if ((chooseType = 3))
+	{
+		r = new DoubleStreamer;
+		(*r).Trigger(newV);
+	}
+
+	v.insert(v.end(), newV.begin(), newV.end());
+
+	delete r;
 }
 
 int Rocket::GetAge()
