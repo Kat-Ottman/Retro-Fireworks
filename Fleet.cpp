@@ -44,7 +44,7 @@ void Fleet::Birth(float initial_up_force)
 
 	if (birthR <= 15)
 	{
-		for (int i = 0; i < birthR; i++)
+		for (int i = 0; i < (rand() % 5); i++)
 		{
 			rockets.push_back(RocketFactory(initial_up_force));
 		}
@@ -115,7 +115,6 @@ Rocket *Fleet::RocketFactory(float initial_up_force)
 	}
 
 	(*pr) = Rocket();
-	(*pr).SetForce(4.0 + frand(), initial_up_force);
-
+	(*pr).SetForce(0, (LINES - (LINES + initial_up_force)));
 	return pr;
 }

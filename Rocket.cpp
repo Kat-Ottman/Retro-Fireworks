@@ -22,9 +22,9 @@ Sets age to 0.
 Rocket::Rocket()
 {
 	this->SetAgeLimit(rand() % (LINES - 10));
-	this->SetTriggerAge(rand() % (LINES - 20));
-	this->SetPosition(rand() % (COLS - 1), 0);
-	this->SetForce(4.0 + frand(), 0);
+	this->SetTriggerAge((this->age_limit - 5));
+	this->SetPosition(rand() % (COLS - 1), (LINES - 1));
+	this->SetForce(0, 0);
 	this->age = 0;
 }
 
@@ -79,8 +79,8 @@ rocket position.
 */
 void Rocket::Draw()
 {
-	mvaddch(this->position.y, this->position.x, '*');
-	//this_thread::sleep_for(chrono::milliseconds(300));
+	mvaddstr(this->position.y, this->position.x, "*******");
+	this_thread::sleep_for(chrono::milliseconds(300));
 }
 
 /*
@@ -96,13 +96,12 @@ void Rocket::Step(vector<Rocket *> &v)
 {
 	for (size_t i = 0; i < v.size(); i++)
 	{
-		Rocket r = *(v.at(i));
-		r.position.x += r.force.x;
-		r.position.y += r.force.y;
+		(v.at(i))->position.x += (v.at(i))->force.x;
+		(v.at(i))->position.y += (v.at(i))->force.y;
 
-		r.position.y += r.gravity;
+		(v.at(i))->force.y += (v.at(i))->gravity;
 
-		r.age += 1;
+		(v.at(i))->age += 1;
 	}
 }
 
