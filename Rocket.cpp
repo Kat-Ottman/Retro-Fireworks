@@ -153,29 +153,9 @@ Initial rocket pointer is deleted to deallocate memory.
 */
 void Rocket::Trigger(vector<Rocket *> &v)
 {
-	int chooseType = rand() % 3;
 	Rocket *r;
-	vector<Rocket *> newV;
 
-	if ((chooseType = 1))
-	{
-		r = new PalmTree;
-		(*r).Trigger(newV);
-	}
-	else if ((chooseType = 2))
-	{
-		r = new Streamer;
-		(*r).Trigger(newV);
-	}
-	else if ((chooseType = 3))
-	{
-		r = new DoubleStreamer;
-		(*r).Trigger(newV);
-	}
-
-	v.insert(v.end(), newV.begin(), newV.end());
-
-	delete r;
+	v.push_back(r);
 }
 
 int Rocket::GetAge()

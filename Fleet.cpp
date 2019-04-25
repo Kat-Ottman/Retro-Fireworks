@@ -15,7 +15,7 @@ void Fleet::Cull()
 {
 	auto it = rockets.begin();
 
-	if (it != rockets.end())
+	while (it != rockets.end())
 	{
 		if (!((*it)->IsAlive()))
 		{
@@ -80,11 +80,9 @@ to be drawn in terminal.
 */
 void Fleet::Draw()
 {
-	for (size_t i = 0; i <= rockets.size(); i++)
+	for (int i = 0; i < rockets.size(); i++)
 	{
-		Rocket r = *(rockets.at(i));
-
-		r.Draw();
+		rockets.at(i)->Draw();
 	}
 }
 
@@ -97,9 +95,24 @@ Returns rocket pointer.
 */
 Rocket *Fleet::RocketFactory(float initial_up_force)
 {
-	Rocket *pr = new Rocket();
+	Rocket *pr;
+	int chooseType = rand() % 3;
+
+	if ((chooseType = 0))
+	{
+		pr = new PalmTree;
+	}
+	else if ((chooseType = 1))
+	{
+		pr = new Streamer;
+	}
+	else if ((chooseType = 2))
+	{
+		pr = new DoubleStreamer;
+	}
 
 	(*pr).SetForce(initial_up_force, 4.0 + frand());
+	(*pr) = Rocket();
 
 	return pr;
 }
