@@ -19,6 +19,7 @@ void Fleet::Cull()
 	{
 		if (!((*it)->IsAlive()))
 		{
+			delete *it;
 			it = rockets.erase(it);
 		}
 		else
@@ -45,8 +46,7 @@ void Fleet::Birth(float initial_up_force)
 	{
 		for (int i = 0; i < birthR; i++)
 		{
-			Rocket *r = RocketFactory(initial_up_force);
-			rockets.push_back(r);
+			rockets.push_back(RocketFactory(initial_up_force));
 		}
 	}
 }
@@ -64,13 +64,16 @@ void Fleet::Step()
 
 	r.Step(rockets);
 
-	if (r.IsTriggered())
+	for (size_t i = 0; i < rockets.size(); i++)
 	{
-		std::vector<Rocket *> newRockets;
+		if (rockets.at(i)->IsTriggered())
+		{
+			std::vector<Rocket *> newRockets;
 
-		r.Trigger(newRockets);
+			rockets.at(i)->Trigger(newRockets);
 
-		rockets.insert(rockets.end(), newRockets.begin(), newRockets.end());
+			rockets.insert(rockets.end(), newRockets.begin(), newRockets.end());
+		}
 	}
 }
 
@@ -80,7 +83,7 @@ to be drawn in terminal.
 */
 void Fleet::Draw()
 {
-	for (int i = 0; i < rockets.size(); i++)
+	for (size_t i = 0; i < rockets.size(); i++)
 	{
 		rockets.at(i)->Draw();
 	}
@@ -111,8 +114,8 @@ Rocket *Fleet::RocketFactory(float initial_up_force)
 		pr = new DoubleStreamer;
 	}
 
-	(*pr).SetForce(initial_up_force, 4.0 + frand());
 	(*pr) = Rocket();
+	(*pr).SetForce(4.0 + frand(), initial_up_force);
 
 	return pr;
 }

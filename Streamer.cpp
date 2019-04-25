@@ -1,5 +1,6 @@
 #include "streamer.hpp"
 #include "fw.hpp"
+#include "sparkler.hpp"
 #include <thread>
 #include <chrono>
 #include <vector>
@@ -10,8 +11,12 @@ using namespace std;
 
 void Streamer::Trigger(vector<Rocket *> &v)
 {
-	Streamer *s = new Streamer;
-	v.push_back(s);
+	for (int i = 1; i <= 8; i++)
+	{
+		Sparkler *s = new Sparkler;
+
+		v.push_back(s);
+	}
 }
 
 void DoubleStreamer::Trigger(vector<Rocket *> &v)

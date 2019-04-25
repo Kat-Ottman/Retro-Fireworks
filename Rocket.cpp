@@ -23,7 +23,8 @@ Rocket::Rocket()
 {
 	this->SetAgeLimit(rand() % (LINES - 10));
 	this->SetTriggerAge(rand() % (LINES - 20));
-	this->SetPosition(0, rand() % (COLS - 1));
+	this->SetPosition(rand() % (COLS - 1), 0);
+	this->SetForce(4.0 + frand(), 0);
 	this->age = 0;
 }
 
@@ -79,6 +80,7 @@ rocket position.
 void Rocket::Draw()
 {
 	mvaddch(this->position.y, this->position.x, '*');
+	//this_thread::sleep_for(chrono::milliseconds(300));
 }
 
 /*
@@ -95,7 +97,6 @@ void Rocket::Step(vector<Rocket *> &v)
 	for (size_t i = 0; i < v.size(); i++)
 	{
 		Rocket r = *(v.at(i));
-
 		r.position.x += r.force.x;
 		r.position.y += r.force.y;
 
@@ -107,29 +108,12 @@ void Rocket::Step(vector<Rocket *> &v)
 
 bool Rocket::IsAlive()
 {
-	if (this->age <= age_limit)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-	return true;
+	return (this->age == this->age_limit);
 }
 
 bool Rocket::IsTriggered()
 {
-	if (this->age >= this->trigger_age)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-
-	return false;
+	return (this->age == this->trigger_age);
 }
 
 /*
@@ -153,8 +137,7 @@ Initial rocket pointer is deleted to deallocate memory.
 */
 void Rocket::Trigger(vector<Rocket *> &v)
 {
-	Rocket *r;
-
+	Rocket *r = new Rocket();
 	v.push_back(r);
 }
 
