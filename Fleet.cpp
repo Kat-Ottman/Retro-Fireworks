@@ -13,18 +13,16 @@ if rocket's age exceeds age limit.
 */
 void Fleet::Cull()
 {
-	auto it = rockets.begin();
-
-	while (it != rockets.end())
+	for (auto it = rockets.begin(); it != rockets.end(); it++)
 	{
-		if (!((*it)->IsAlive()))
+		if ((*(it))->IsAlive())
 		{
-			delete *it;
-			it = rockets.erase(it);
+			continue;
 		}
 		else
 		{
-			++it;
+			delete *it;
+			it = rockets.erase(it);
 		}
 	}
 }
@@ -61,18 +59,21 @@ Vector will combine with vector with new triggered rockets.
 void Fleet::Step()
 {
 	Rocket r;
-
 	r.Step(rockets);
 
 	for (size_t i = 0; i < rockets.size(); i++)
 	{
+
 		if (rockets.at(i)->IsTriggered())
 		{
+
 			std::vector<Rocket *> newRockets;
 
 			rockets.at(i)->Trigger(newRockets);
 
 			rockets.insert(rockets.end(), newRockets.begin(), newRockets.end());
+
+			newRockets.clear();
 		}
 	}
 }
@@ -115,6 +116,10 @@ Rocket *Fleet::RocketFactory(float initial_up_force)
 	}
 
 	(*pr) = Rocket();
-	(*pr).SetForce(0, (LINES - (LINES + initial_up_force)));
+
+	(*pr).SetForce(0, -initial_up_force);
+	(*pr).SetTriggerAge(7);
+	(*pr).SetAgeLimit(30);
+	(*pr).SetPosition(rand() % (COLS - 1), (LINES - 1));
 	return pr;
 }

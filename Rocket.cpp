@@ -9,8 +9,6 @@
 #include "palmtree.hpp"
 #include "streamer.hpp"
 
-using namespace std;
-
 float Rocket::gravity = 1.0;
 
 /*
@@ -21,9 +19,9 @@ Sets age to 0.
 */
 Rocket::Rocket()
 {
-	this->SetAgeLimit(rand() % (LINES - 10));
-	this->SetTriggerAge((this->age_limit - 5));
-	this->SetPosition(rand() % (COLS - 1), (LINES - 1));
+	this->SetAgeLimit(__INT_MAX__);
+	this->SetTriggerAge(__INT_MAX__);
+	this->SetPosition(0, 0);
 	this->SetForce(0, 0);
 	this->age = 0;
 }
@@ -79,8 +77,8 @@ rocket position.
 */
 void Rocket::Draw()
 {
-	mvaddstr(this->position.y, this->position.x, "*******");
-	this_thread::sleep_for(chrono::milliseconds(300));
+	mvaddch(this->position.y, this->position.x, '*');
+	std::this_thread::sleep_for(std::chrono::milliseconds(30));
 }
 
 /*
@@ -92,14 +90,14 @@ Graphics can only be used in integers,
 	will be rounded.
 
 */
-void Rocket::Step(vector<Rocket *> &v)
+void Rocket::Step(std::vector<Rocket *> &v)
 {
 	for (size_t i = 0; i < v.size(); i++)
 	{
 		(v.at(i))->position.x += (v.at(i))->force.x;
 		(v.at(i))->position.y += (v.at(i))->force.y;
 
-		(v.at(i))->force.y += (v.at(i))->gravity;
+		(v.at(i))->force.y -= (v.at(i))->gravity;
 
 		(v.at(i))->age += 1;
 	}
@@ -107,7 +105,17 @@ void Rocket::Step(vector<Rocket *> &v)
 
 bool Rocket::IsAlive()
 {
-	return (this->age == this->age_limit);
+	/* if (this->age <= this->age_limit)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	} */
+
+	//return (this->age == this->age_limit);
+	return (this->age <= this->age_limit);
 }
 
 bool Rocket::IsTriggered()
@@ -134,7 +142,7 @@ The new vector is inserted onto the rockets vector.
 
 Initial rocket pointer is deleted to deallocate memory.
 */
-void Rocket::Trigger(vector<Rocket *> &v)
+void Rocket::Trigger(std::vector<Rocket *> &v)
 {
 	Rocket *r = new Rocket();
 	v.push_back(r);
