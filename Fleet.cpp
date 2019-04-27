@@ -6,13 +6,16 @@
 #include "palmtree.hpp"
 #include <list>
 #include <iostream>
+#include <fstream>
 
 /*
 Erases rocket pointers from rockets vector
 if rocket's age exceeds age limit.
 */
+
 void Fleet::Cull()
 {
+
 	for (auto it = rockets.begin(); it != rockets.end(); it++)
 	{
 		if ((*(it))->IsAlive())
@@ -21,6 +24,7 @@ void Fleet::Cull()
 		}
 		else
 		{
+
 			delete *it;
 			it = rockets.erase(it);
 		}
@@ -37,37 +41,30 @@ void Fleet::Birth(float initial_up_force)
 	mod rand by 100, then say if int 15 or less,
 	then birth. else, no.
 	*/
-
 	int birthR = rand() % 100;
 
 	if (birthR <= 15)
 	{
-		for (int i = 0; i < (rand() % 5); i++)
-		{
-			rockets.push_back(RocketFactory(initial_up_force));
-		}
+		rockets.push_back(RocketFactory(initial_up_force));
 	}
 }
 
 /*
 Iterates through vector of rockets to move each rocket.
-
 If rocket is at trigger_age, rocket will trigger into new rockets.
-
 Vector will combine with vector with new triggered rockets.
 */
 void Fleet::Step()
 {
 	Rocket r;
 	r.Step(rockets);
+	std::vector<Rocket *> newRockets;
 
-	for (size_t i = 0; i < rockets.size(); i++)
+	for (unsigned int i = 0; i < rockets.size(); i++)
 	{
 
 		if (rockets.at(i)->IsTriggered())
 		{
-
-			std::vector<Rocket *> newRockets;
 
 			rockets.at(i)->Trigger(newRockets);
 
@@ -84,7 +81,7 @@ to be drawn in terminal.
 */
 void Fleet::Draw()
 {
-	for (size_t i = 0; i < rockets.size(); i++)
+	for (unsigned int i = 0; i < rockets.size(); i++)
 	{
 		rockets.at(i)->Draw();
 	}
@@ -92,9 +89,7 @@ void Fleet::Draw()
 
 /*
 Creates new rocket pointer.
-
 Sets rocket force using function parameter.
-
 Returns rocket pointer.
 */
 Rocket *Fleet::RocketFactory(float initial_up_force)
@@ -102,24 +97,23 @@ Rocket *Fleet::RocketFactory(float initial_up_force)
 	Rocket *pr;
 	int chooseType = rand() % 3;
 
-	if ((chooseType = 0))
+	chooseType = 0;
+	if ((chooseType == 0))
 	{
 		pr = new PalmTree;
 	}
-	else if ((chooseType = 1))
+	else if ((chooseType == 1))
 	{
 		pr = new Streamer;
 	}
-	else if ((chooseType = 2))
+	else if ((chooseType == 2))
 	{
 		pr = new DoubleStreamer;
 	}
 
-	(*pr) = Rocket();
-
 	(*pr).SetForce(0, -initial_up_force);
-	(*pr).SetTriggerAge(7);
-	(*pr).SetAgeLimit(30);
+	(*pr).SetTriggerAge(3);
+	(*pr).SetAgeLimit(15);
 	(*pr).SetPosition(rand() % (COLS - 1), (LINES - 1));
 	return pr;
 }

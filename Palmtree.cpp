@@ -4,11 +4,17 @@
 
 void PalmTree::Trigger(std::vector<Rocket *> &v)
 {
-	for (int i = 0; i < 8; i++)
+	int hForce = -4;
+	for (int i = 0; i < 9; i++)
 	{
-		Sparkler *s = new Sparkler;
-		s->SetForce(this->force.x + frand(), this->force.y - 1);
-		s->SetPosition(this->position.x, this->position.y);
+
+		Rocket *s = new Sparkler();
+
+		s->SetForce(this->force.x + hForce, this->force.y - 1);
+		s->SetPosition(*this);
+		s->SetAgeLimit(15);
+
 		v.push_back(s);
+		hForce++;
 	}
 }

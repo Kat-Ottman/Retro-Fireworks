@@ -10,7 +10,7 @@ Project: P5
 #include <vector>
 #include <ctime>
 #include <ncurses.h>
-
+#include <iostream>
 #include "fw.hpp"
 #include "streamer.hpp"
 #include "palmtree.hpp"
@@ -72,13 +72,14 @@ int main(int argc, char *argv[])
 		- Draw each rocket.
 		- Eliminate rockets that have aged out.
 	*/
+
 	while (true)
 	{
 		erase();
 		fleet.Birth(initial_up_force);
 		fleet.Step();
 		fleet.Draw();
-		fleet.Cull();
+		//fleet.Cull();
 		box(stdscr, 0, 0);
 		mvaddstr(0, 1, " RETRO FIREWORKS ");
 		refresh();
