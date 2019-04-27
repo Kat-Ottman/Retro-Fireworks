@@ -44,7 +44,7 @@ void Streamer::Trigger(vector<Rocket *> &v)
 			s->SetForce(this->force.x - sqrt(2), this->force.y - sqrt(2));
 		}
 
-		s->SetAgeLimit(15);
+		s->SetAgeLimit(5);
 		s->SetPosition(*this);
 		v.push_back(s);
 	}
@@ -90,7 +90,7 @@ void DoubleStreamer::Trigger(vector<Rocket *> &v)
 		{
 			s->SetForce(this->force.x - (sqrt(2) / 2), this->force.y - (sqrt(2) / 2));
 		}
-		s->SetAgeLimit(15);
+		s->SetAgeLimit(5);
 		s->SetPosition(*this);
 
 		v.push_back(s);

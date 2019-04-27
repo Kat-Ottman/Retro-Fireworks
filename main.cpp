@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 		fleet.Birth(initial_up_force);
 		fleet.Step();
 		fleet.Draw();
-		//fleet.Cull();
+		fleet.Cull();
 		box(stdscr, 0, 0);
 		mvaddstr(0, 1, " RETRO FIREWORKS ");
 		refresh();

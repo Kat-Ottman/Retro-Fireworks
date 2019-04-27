@@ -113,7 +113,7 @@ int Rocket::GetAge()
 
 bool Rocket::IsAlive()
 {
-	if (this->age <= this->age_limit)
+	if (this->age < this->age_limit)
 	{
 		return true;
 	}

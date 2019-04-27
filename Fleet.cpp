@@ -113,7 +113,7 @@ Rocket *Fleet::RocketFactory(float initial_up_force)
 
 	(*pr).SetForce(0, -initial_up_force);
 	(*pr).SetTriggerAge(3);
-	(*pr).SetAgeLimit(15);
+	(*pr).SetAgeLimit(5);
 	(*pr).SetPosition(rand() % (COLS - 1), (LINES - 1));
 	return pr;
 }

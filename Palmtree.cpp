@@ -12,7 +12,7 @@ void PalmTree::Trigger(std::vector<Rocket *> &v)
 
 		s->SetForce(this->force.x + hForce, this->force.y - 1);
 		s->SetPosition(*this);
-		s->SetAgeLimit(15);
+		s->SetAgeLimit(5);
 
 		v.push_back(s);
 		hForce++;
