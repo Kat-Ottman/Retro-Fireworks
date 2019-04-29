@@ -76,7 +76,6 @@ rocket position.
 void Rocket::Draw()
 {
 	mvaddch(this->position.y, this->position.x, '*');
-	std::this_thread::sleep_for(std::chrono::milliseconds(3));
 }
 
 /*
@@ -113,26 +112,23 @@ int Rocket::GetAge()
 
 bool Rocket::IsAlive()
 {
-	if (this->age < this->age_limit)
+	bool alive = true;
+	if (this->age >= this->age_limit)
 	{
-		return true;
+		alive = false;
 	}
-	else
-	{
-		return false;
-	}
+
+	return alive;
 }
 
 bool Rocket::IsTriggered()
 {
+	bool trigger = false;
 	if (this->age == this->trigger_age)
 	{
-		return true;
+		trigger = true;
 	}
-	else
-	{
-		return false;
-	}
+	return trigger;
 }
 
 /*

@@ -15,8 +15,7 @@ if rocket's age exceeds age limit.
 
 void Fleet::Cull()
 {
-
-	for (auto it = rockets.begin(); it != rockets.end(); it++)
+	for (auto it = rockets.begin(); it < rockets.end(); it++)
 	{
 		if ((*(it))->IsAlive())
 		{
@@ -24,7 +23,6 @@ void Fleet::Cull()
 		}
 		else
 		{
-
 			delete *it;
 			it = rockets.erase(it);
 		}
@@ -97,7 +95,7 @@ Rocket *Fleet::RocketFactory(float initial_up_force)
 	Rocket *pr;
 	int chooseType = rand() % 3;
 
-	chooseType = 0;
+	//chooseType = 2;
 	if ((chooseType == 0))
 	{
 		pr = new PalmTree;

@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
 		box(stdscr, 0, 0);
 		mvaddstr(0, 1, " RETRO FIREWORKS ");
 		refresh();
-		this_thread::sleep_for(chrono::milliseconds(40));
+		this_thread::sleep_for(chrono::milliseconds(50));
 	}
 	curs_set(1);
 	endwin();
